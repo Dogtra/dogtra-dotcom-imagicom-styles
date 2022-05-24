@@ -1,0 +1,367 @@
+:root {
+    --primary-bg-color: #8a7b4d;
+    --secondary-bg-color: #33363b;
+    --neutral-bg-color: #e3e1db;
+
+    --primary-color-on-primary-bg: ;
+    --secondary-color-on-primary-bg: ;
+
+    --primary-color-on-secondary-bg: ;
+    --secondary-color-on-secondary-bg: ;
+}
+
+.thumbContainer:hover div,
+.thumbContainer:focus div {
+    margin-top: 0px;
+    animation-name: slideUp;
+    animation-duration: .7s;
+}
+
+.thumbContainer div img {
+    display: none;
+}
+
+.thumbContainer div:before {
+    border-bottom-color: rgba(0, 0, 0, 1);
+}
+
+.thumbContainer div {
+    background-color: rgba(0, 0, 0, 1);
+}
+
+#content ul li {
+    font-size: 14px;
+    line-height: 20px;
+}
+
+#productDescription h6 {
+    line-height: 26px;
+}
+
+#content ul {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+table,
+th,
+td {
+    border: 1px solid white;
+}
+
+.miniCallOut h2 {
+    color: #fff;
+    text-align: center;
+    clear: both;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 32px;
+    text-shadow: 0 0 40px #000;
+}
+
+.intro {
+    width: 80%;
+    line-height: 2rem;
+    margin: 1rem auto 2rem auto;
+    font-size: 1rem;
+}
+
+.intro-blck {
+    margin: 4% auto;
+}
+
+.intro-btn {
+    padding: 1rem 2rem;
+    border: none;
+    background-color: #8A7D51;
+    color: white;
+    margin: 2rem 0rem 0rem 0rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.intro-btn:hover {
+
+    background-color: #7f734c;
+}
+
+
+@media only screen and (max-width : 320px) {
+    h1.sliderTitle {
+        font-size: 30px;
+        line-height: 32px;
+        padding: 55px 0 0 0;
+    }
+
+    .center {
+        display: none;
+    }
+
+    .special {
+        width: 50%;
+    }
+
+    .viewCompare {
+        padding-top: 3px;
+    }
+
+    .grid_6 iframe {
+        padding: 20px 10px 0 10px;
+    }
+}
+
+/* Break 2  ----------- */
+@media only screen and (min-width : 321px) and (max-width : 480px) {
+    h1.sliderTitle {
+        font-size: 30px;
+        line-height: 32px;
+        padding: 55px 0 0 0;
+    }
+
+    .center {
+        display: none;
+    }
+
+    .special {
+        width: 50%;
+    }
+
+    .viewCompare {
+        padding-top: 3px;
+    }
+
+    .grid_6 iframe {
+        padding: 20px 10px 0 10px;
+    }
+}
+
+/* Break 3 ----------- */
+@media only screen and (min-width : 481px) and (max-width : 767px) {
+    h1.sliderTitle {
+        font-size: 46px;
+        line-height: 52px;
+        padding: 70px 140px 0 0;
+    }
+
+    .center {
+        display: none;
+    }
+
+    .special {
+        width: 50%;
+    }
+
+    .grid_6 iframe {
+        padding: 20px 10px 0 10px;
+    }
+}
+
+/* Break 4 ----------- */
+@media only screen and (min-width : 768px) and (max-width : 1023px) {
+    h1.sliderTitle {
+        font-size: 60px;
+        line-height: 62px;
+        padding: 120px 140px 0 0;
+        margin-right: 0;
+    }
+
+    .cycle-slideshow,
+    .cycle-slideshow .slide {
+        height: 460px;
+    }
+
+    .special {
+        width: 60%;
+        text-align: right;
+        float: right
+    }
+
+    .productHeaderBg {
+        height: 400px;
+    }
+}
+
+/* Break 5 ----------- */
+@media only screen and (min-width : 1024px) {
+    h1.sliderTitle {
+        font-size: 70px;
+        line-height: 70px;
+        padding: 180px 100px 0 0;
+    }
+
+    .cycle-slideshow,
+    .cycle-slideshow .slide {
+        height: 480px;
+    }
+
+    .special {
+        width: 60%;
+        text-align: right;
+        float: right
+    }
+
+    .productHeaderBg {
+        height: 400px;
+    }
+}
+
+/* Break 6 ----------- */
+@media only screen and (min-width : 1224px) {
+    h1.sliderTitle {
+        font-size: 80px;
+        line-height: 82px;
+        padding: 220px 100px 0 0;
+    }
+
+    .cycle-slideshow,
+    .cycle-slideshow .slide {
+        height: 490px;
+    }
+
+    .special {
+        width: 60%;
+        text-align: right;
+        float: right
+    }
+
+    .productHeaderBg {
+        height: 400px;
+    }
+}
+
+/* Break 6 ----------- */
+@media only screen and (min-width : 1281px) {
+    h1.sliderTitle {
+        font-size: 80px;
+        line-height: 82px;
+        padding: 240px 100px 0 0;
+    }
+
+    .cycle-slideshow,
+    .cycle-slideshow .slide {
+        height: 690px;
+    }
+
+    .special {
+        width: 60%;
+        text-align: right;
+        float: right
+    }
+
+    .productHeaderBg {
+        height: 500px;
+    }
+}
+
+/* Use a different font family for search results */
+.gs-title,
+.gs-snippet {
+    font-family: "effra", sans-serif;
+}
+
+/* Add a border between individual search results */
+.gs-webResult {
+    border: 1px solid #eee;
+    padding: 1em;
+}
+
+/* Do no display the count of search results */
+.gsc-result-info {
+    display: none;
+}
+
+/* Hide the Google branding in search results */
+.gcsc-branding {
+    display: none;
+}
+
+/* Hide the thumbnail images in search results */
+.gsc-thumbnail {
+    display: none;
+}
+
+/* Hide the snippets in Google search results */
+.gs-snippet {
+    display: none;
+}
+
+.gs-result .gs-title,
+.gs-result .gs-title {
+    color: #333;
+}
+
+/* Change the font size of the title of search results */
+.gs-title a {
+    font-size: 14px;
+}
+
+/* Change the font size of snippets inside search results */
+.gs-snippet {
+    font-size: 14px;
+}
+
+/* Google Custom Search highlights matching words in bold, toggle that */
+.gs-title b,
+.gs-snippet b {
+    font-weight: normal;
+}
+
+/* Do no display the URL of web pages in search results */
+.gsc-url-top,
+.gsc-url-bottom {
+    display: none;
+}
+
+/* Highlight the pagination buttons at the bottom of search results */
+.gsc-cursor-page {
+    font-size: 1.5em;
+    padding: 4px 8px;
+    border: 2px solid #ccc;
+}
+
+#nav #mainNav ul li ul li ul li a {
+    width: 125px !important;
+}
+
+/*Hide Feefo View All Reviews Link until they have reviews to populate the popup*/
+.feefowidget-read-all-reviews {
+    display: none !important;
+}
+
+.cycle-pager {
+    z-index: 9999
+}
+
+/* bundle-master css */
+
+#mobileMenu,
+.miniButton,
+.button,
+#nav,
+#nav #mainNav ul li ul,
+#nav #mainNav ul li ul li,
+.product_show_hide,
+#productThumb a .quickView,
+.wishlists #wishlistOptions form input[type="submit"]:hover
+{
+    background-color: var(--primary-bg-color);
+}
+
+.sidr,
+form .button,
+#productThumb .fullView,
+#productAdditionalinfo .button:hover,
+#productThumb .fullView
+{
+    background: var(--primary-bg-color);
+}
+
+/* site css */
+#inline #productDescription .fullView,
+.pl-tile-prod-pop-cart .fullView {
+    background: var(--primary-bg-color);
+}
+
+.add-cart-btn {
+    background: var(--primary-bg-color) !important;
+}
