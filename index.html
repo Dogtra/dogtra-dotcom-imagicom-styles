@@ -323,7 +323,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <p class="text-center text-2xl font-bold md:text-3xl text-center uppercase">
                 Popular by activity
             </span>
-            <div class="overflow-x-scroll">
+            <div class="overflow-x-auto">
                 <div class="flex justify-center w-max mx-auto">
                     <template v-for="category in categories">
                         <div class="text-base md:text-xl px-4 md:px-0 min-w-32 md:w-64 uppercase text-center border-solid border-b-4 border-black cursor-pointer flex justify-center items-center" :class="{'border-yellow-200': selectedCategory === category.title, 'font-bold': selectedCategory === category.title}" @click="selectedCategory = category.title">
@@ -332,15 +332,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </template>
                 </div>
             </div>
-            <div class="overflow-x-scroll">
+            <div class="overflow-x-auto">
                 <div class="p-8 w-max mx-auto">
                     <template v-for="category in categories">
                         <div v-show="selectedCategory === category.title" class="flex justify-center gap-4">
                             <template v-for="product in category.products">
                                 <a :href="product.url">
-                                    <div class="shadow-lg">
-                                        <img :src="product.img" :alt="product.img" class="w-full h-60 md:h-80 rounded-tr-3xl">
-                                        <div class="bg-gray-800 text-white uppercase font-bold text-center py-4 text-xl rounded-bl-3xl">
+                                    <div class="shadow-lg bg-white rounded-tr-3xl rounded-bl-3xl overflow-hidden">
+                                        <div class="max-w-[15rem] md:max-w-[20rem]">
+                                            <img :src="product.img" :alt="product.img" class="w-full mx-auto">
+                                        </div>
+                                        <div class="bg-gray-800 text-white uppercase font-bold text-center py-4 text-xl">
                                             {{ product.title }}
                                         </div>
                                     </div>
@@ -401,7 +403,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                 url: "https://www.dogtra.com/products/remote-training/hunting/pathfinder2"
                             },
                             {
-                                title: "2700T&B Training & Beeper",
+                                title: "2700T&B",
                                 img: "https://www.dogtra.com/cache/PRODUCT_IMG675MAR.jpg?20190410033244",
                                 url: "https://www.dogtra.com/products/remote-training/hunting/2700tb-training-and-beeper"
                             },
@@ -451,6 +453,53 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <style>
     /* BEGIN Tailwindcss extract */
 
+    *,
+    ::before,
+    ::after {
+        --tw-translate-x: 0;
+        --tw-translate-y: 0;
+        --tw-rotate: 0;
+        --tw-skew-x: 0;
+        --tw-skew-y: 0;
+        --tw-scale-x: 1;
+        --tw-scale-y: 1;
+        --tw-pan-x: ;
+        --tw-pan-y: ;
+        --tw-pinch-zoom: ;
+        --tw-scroll-snap-strictness: proximity;
+        --tw-ordinal: ;
+        --tw-slashed-zero: ;
+        --tw-numeric-figure: ;
+        --tw-numeric-spacing: ;
+        --tw-numeric-fraction: ;
+        --tw-ring-inset: ;
+        --tw-ring-offset-width: 0px;
+        --tw-ring-offset-color: #fff;
+        --tw-ring-color: rgb(59 130 246 / 0.5);
+        --tw-ring-offset-shadow: 0 0 #0000;
+        --tw-ring-shadow: 0 0 #0000;
+        --tw-shadow: 0 0 #0000;
+        --tw-shadow-colored: 0 0 #0000;
+        --tw-blur: ;
+        --tw-brightness: ;
+        --tw-contrast: ;
+        --tw-grayscale: ;
+        --tw-hue-rotate: ;
+        --tw-invert: ;
+        --tw-saturate: ;
+        --tw-sepia: ;
+        --tw-drop-shadow: ;
+        --tw-backdrop-blur: ;
+        --tw-backdrop-brightness: ;
+        --tw-backdrop-contrast: ;
+        --tw-backdrop-grayscale: ;
+        --tw-backdrop-hue-rotate: ;
+        --tw-backdrop-invert: ;
+        --tw-backdrop-opacity: ;
+        --tw-backdrop-saturate: ;
+        --tw-backdrop-sepia:
+    }
+
     .mx-auto {
         margin-left: auto;
         margin-right: auto
@@ -464,16 +513,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         display: flex
     }
 
-    .h-60 {
-        height: 15rem
-    }
-
     .w-max {
         width: max-content
     }
 
     .w-full {
         width: 100%
+    }
+
+    .max-w-\[15rem\] {
+        max-width: 15rem
     }
 
     .cursor-pointer {
@@ -492,8 +541,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         gap: 1rem
     }
 
-    .overflow-x-scroll {
-        overflow-x: scroll
+    .overflow-hidden {
+        overflow: hidden
+    }
+
+    .overflow-x-auto {
+        overflow-x: auto
     }
 
     .rounded-tr-3xl {
@@ -520,6 +573,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .border-yellow-200 {
         --tw-border-opacity: 1;
         border-color: rgb(254 240 138 / var(--tw-border-opacity))
+    }
+
+    .bg-white {
+        --tw-bg-opacity: 1;
+        background-color: rgb(255 255 255 / var(--tw-bg-opacity))
     }
 
     .bg-gray-800 {
@@ -580,12 +638,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
 
     @media (min-width: 768px) {
-        .md\:h-80 {
-            height: 20rem
-        }
-
         .md\:w-64 {
             width: 16rem
+        }
+
+        .md\:max-w-\[20rem\] {
+            max-width: 20rem
         }
 
         .md\:px-0 {
