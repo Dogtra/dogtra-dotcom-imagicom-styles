@@ -326,8 +326,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="overflow-x-auto">
                 <div class="flex justify-center w-max mx-auto">
                     <template v-for="category in categories">
-                        <div class="text-base md:text-xl px-4 md:px-0 min-w-32 md:w-64 uppercase text-center border-solid border-b-4 border-black cursor-pointer flex justify-center items-center" :class="{'border-yellow-200': selectedCategory === category.title, 'font-bold': selectedCategory === category.title}" @click="selectedCategory = category.title">
-                            {{ category.title }}
+                        <div class="text-base md:text-xl px-4 md:px-0 min-w-32 md:w-64 uppercase text-center border-solid border-b-4 border-black cursor-pointer flex justify-center items-center" :class="{'border-yellow-200': selectedCategory === category.attributes.name, 'font-bold': selectedCategory === category.attributes.name}" @click="selectedCategory = category.attributes.name">
+                            {{ category.attributes.name }}
                         </div>
                     </template>
                 </div>
@@ -335,15 +335,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="overflow-x-auto">
                 <div class="p-8 w-max mx-auto">
                     <template v-for="category in categories">
-                        <div v-show="selectedCategory === category.title" class="flex justify-center gap-4">
-                            <template v-for="product in category.products">
-                                <a :href="product.url">
+                        <div v-show="selectedCategory === category.attributes.name" class="flex justify-center gap-4">
+                            <template v-for="product in category.attributes.products.data">
+                                <a :href="product.attributes.url">
                                     <div class="shadow-lg bg-white rounded-tr-3xl rounded-bl-3xl overflow-hidden">
                                         <div class="max-w-[15rem] md:max-w-[20rem]">
-                                            <img :src="product.img" :alt="product.img" class="w-full mx-auto">
+                                            <img :src="product.attributes.image.data.attributes.url" :alt="product.attributes.image.data.attributes.alternativeText" class="w-full mx-auto">
                                         </div>
                                         <div class="bg-gray-800 text-white uppercase font-bold text-center py-4 text-xl">
-                                            {{ product.title }}
+                                            {{ product.attributes.name }}
                                         </div>
                                     </div>
                                 </a>
@@ -363,85 +363,55 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     createApp({
         data() {
             return {
-                categories: [
-                    {
-                        title: "Obedience",
-                        products: [
-                            {
-                                title: "iQ PLUS",
-                                img: "https://www.dogtra.com/cache/PRODUCT_IMG45MAR.jpg?20190919103747",
-                                url: "https://www.dogtra.com/products/remote-training/iq-plus"
-                            },
-                            {
-                                title: "Tom Davis Edition 280C",
-                                img: "https://www.dogtra.com/cache/PRODUCT_IMG1183MAR.jpg?20210819061012",
-                                url: "https://www.dogtra.com/products/remote-training/obedience/tom-davis-280c"
-                            },
-                            // {
-                            //     title: "280C",
-                            //     img: "https://www.dogtra.com/cache/PRODUCT_IMG6MAR.jpg?20160916065534",
-                            //     url: "https://www.dogtra.com/products/remote-training/280c"
-                            // },
-                            {
-                                title: "ARC HANDSFREE PLUS",
-                                img: "https://www.dogtra.com/cache/PRODUCT_IMG1239MAR.png?20210924064153",
-                                url: "https://www.dogtra.com/products/remote-training/obedience/arc-handsfree-plus"
-                            },
-                            // {
-                            //     title: "1900S HANDSFREE PLUS",
-                            //     img: "https://www.dogtra.com/cache/PRODUCT_IMG1237MAR.png?20210924060546",
-                            //     url: "https://www.dogtra.com/products/remote-training/1900s-handsfree-plus"
-                            // },
-                        ]
-                    },
-                    {
-                        title: "Outdoor",
-                        products: [
-                            {
-                                title: "PATHFINDER2",
-                                img: "https://www.dogtra.com/cache/PRODUCT_IMG1267MAR.jpg?20220512070426",
-                                url: "https://www.dogtra.com/products/remote-training/outdoor/pathfinder2"
-                            },
-                            {
-                                title: "T&B DUAL 2-DOG",
-                                img: "https://www.dogtra.com/cache/PRODUCT_IMG828MAR.jpg?20200507050526",
-                                url: "https://www.dogtra.com/products/remote-training/outdoor/tb-dual-2-dog"
-                            },
-                            {
-                                title: "1900S Wetlands",
-                                img: "https://www.dogtra.com/cache/PRODUCT_IMG541MAR.jpg?20190919103551",
-                                url: "https://www.dogtra.com/products/remote-training/outdoor/1900swetlands"
-                            },
-                        ]
-                    },
-                    {
-                        title: "Working Dogs",
-                        products: [
-                            {
-                                title: "1900S Black Edition",
-                                img: "https://www.dogtra.com/cache/PRODUCT_IMG547MAR.jpg?20191023100443",
-                                url: "https://www.dogtra.com/products/remote-training/working-dogs/1900sblackedition"
-                            },
-                            // {
-                            //     title: "2300NCP Expandable",
-                            //     img: "https://www.dogtra.com/cache/PRODUCT_IMG17MAR.jpg?20190219103725",
-                            //     url: "https://www.dogtra.com/products/remote-training/service-k9/2300exp"
-                            // },
-                            {
-                                title: "3502X",
-                                img: "https://www.dogtra.com/cache/PRODUCT_IMG817MAR.jpg?20190913103315",
-                                url: "https://www.dogtra.com/products/remote-training/working-dogs/3502x"
-                            },
-                            {
-                                title: "EDGE RT",
-                                img: "https://www.dogtra.com/cache/PRODUCT_IMG27MAR.jpg?20160921053334",
-                                url: "https://www.dogtra.com/products/remote-training/working-dogs/edge-rt"
-                            },
-                        ]
-                    },
-                ],
+                categories: [],
                 selectedCategory: "Obedience"
             }
+        },
+        async mounted() {
+            fetch('https://strapi.jhyang.xyz/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+                    query Query {
+                        categories {
+                            data {
+                            id
+                            attributes {
+                                name
+                                products {
+                                data {
+                                    id
+                                    attributes {
+                                    image {
+                                        data {
+                                        id
+                                        attributes {
+                                            alternativeText
+                                            url
+                                        }
+                                        }
+                                    }
+                                    name
+                                    url
+                                    }
+                                }
+                                }
+                            }
+                            }
+                        }
+                        }
+      `,
+                    variables: {
+                        now: new Date().toISOString(),
+                    },
+                }),
+            })
+                .then((res) => res.json())
+                .then((result) => this.categories = result.data.categories.data);
+
         }
     }).mount('#app')
 </script>
