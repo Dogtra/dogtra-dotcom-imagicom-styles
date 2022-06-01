@@ -342,7 +342,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                         <div class="max-w-[15rem] md:max-w-[20rem]">
                                             <img :src="product.attributes.image.data.attributes.url" :alt="product.attributes.image.data.attributes.alternativeText" class="w-full mx-auto">
                                         </div>
-                                        <div class="bg-gray-800 text-white uppercase font-bold text-center py-4 text-xl">
+                                        <div class="bg-[#33363b] text-white uppercase font-bold text-center py-4 text-xl">
                                             {{ product.attributes.name }}
                                         </div>
                                     </div>
@@ -354,6 +354,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
         </div>
     </div>
+    <div v-if="landingPage" class="flex flex-col items-center gap-8">
+        <template v-for="section in landingPage.attributes.sections">
+            <div v-if="section.__typename === 'ComponentSectionsBannerImageBackground'" class="relative cursor-pointer md:opacity-80 hover:opacity-100 max-w-full">
+                <a :href="section.section_url" :style="{'background-image': 'url(' + section.background_image.data.attributes.url + ')'}" class="block top-0 left-0 w-[1195px] py-8 md:py-20 max-w-full text-center flex items-center flex-col justify-center bg-center bg-cover">
+                    <div class="text-white text-3xl md:text-7xl text-shadow font-bold uppercase">
+                        {{ section.title }}
+                    </div>
+                    <div class="mt-8 bg-white text-black text-sm md:text-lg w-fit uppercase px-4 py-1 md:px-6 md:py-2 font-semibold">
+                        {{ section.button_text }}
+                    </div>
+                </a>
+            </div>
+        </template>
+    </div>
 </div>
 
 <script>
@@ -364,11 +378,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         data() {
             return {
                 categories: [],
-                selectedCategory: "Obedience"
+                selectedCategory: "Obedience",
+                landingPage: null
+            }
+        },
+        computed: {
+            sortedCategories() {
+                
             }
         },
         async mounted() {
-            fetch('https://strapi.jhyang.xyz/graphql', {
+            fetch('https://strapi.dogtra.com/graphql', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -376,28 +396,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 body: JSON.stringify({
                     query: `
                     query Query {
-                        categories {
+                        categories(sort: "order:asc") {
                             data {
                             id
                             attributes {
+                                order
                                 name
-                                products {
-                                data {
-                                    id
-                                    attributes {
-                                    image {
-                                        data {
+                                products(sort: "order:asc") {
+                                    data {
                                         id
                                         attributes {
-                                            alternativeText
-                                            url
+                                        order
+                                        image {
+                                            data {
+                                            id
+                                            attributes {
+                                                alternativeText
+                                                url
+                                            }
+                                            }
                                         }
+                                        name
+                                        url
                                         }
                                     }
-                                    name
-                                    url
-                                    }
-                                }
                                 }
                             }
                             }
@@ -410,7 +432,68 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 }),
             })
                 .then((res) => res.json())
-                .then((result) => this.categories = result.data.categories.data);
+                .then((result) =>  {
+                    this.categories = result.data.categories.data
+                });
+
+
+            fetch('https://strapi.dogtra.com/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: `
+query LandingPage {
+  landingPage {
+    data {
+      attributes {
+        sections {
+          __typename
+          ... on ComponentSectionsBannerImageBackground {
+            background_image {
+              data {
+                attributes {
+                  url
+                  alternativeText
+                }
+              }
+            }
+            button_text
+            button_url
+            description
+            id
+            section_url
+            title
+          }
+          ... on ComponentSectionsImageNextToText {
+            description
+            id
+            image {
+              data {
+                attributes {
+                  url
+                  alternativeText
+                }
+              }
+            }
+            title
+          }
+        }
+      }
+    }
+  }
+}
+      `,
+                    variables: {
+                        now: new Date().toISOString(),
+                    },
+                }),
+            })
+                .then((res) => res.json())
+                .then((result) =>  {
+                    this.landingPage = result.data.landingPage.data
+                });
 
         }
     }).mount('#app')
@@ -420,11 +503,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     .grid32,
     .grid33 {
-        width: fit-content;
+        width: fit-content !important;
+    }
+
+    .text-shadow {
+        text-shadow: 2px 2px 8px rgb(0,0,0);
     }
 
 </style>
-
 <style>
     /* BEGIN Tailwindcss extract */
 
@@ -475,6 +561,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         --tw-backdrop-sepia:
     }
 
+    .relative {
+        position: relative
+    }
+
+    .top-0 {
+        top: 0px
+    }
+
+    .left-0 {
+        left: 0px
+    }
+
     .mx-auto {
         margin-left: auto;
         margin-right: auto
@@ -482,6 +580,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     .mb-8 {
         margin-bottom: 2rem
+    }
+
+    .mt-8 {
+        margin-top: 2rem
+    }
+
+    .block {
+        display: block
     }
 
     .flex {
@@ -496,12 +602,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         width: 100%
     }
 
+    .w-\[1195px\] {
+        width: 1195px
+    }
+
+    .w-fit {
+        width: -moz-fit-content;
+        width: fit-content
+    }
+
     .max-w-\[15rem\] {
         max-width: 15rem
     }
 
+    .max-w-full {
+        max-width: 100%
+    }
+
     .cursor-pointer {
         cursor: pointer
+    }
+
+    .flex-col {
+        flex-direction: column
     }
 
     .items-center {
@@ -510,6 +633,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     .justify-center {
         justify-content: center
+    }
+
+    .gap-8 {
+        gap: 2rem
     }
 
     .gap-4 {
@@ -555,9 +682,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         background-color: rgb(255 255 255 / var(--tw-bg-opacity))
     }
 
-    .bg-gray-800 {
+    .bg-\[\#33363b\] {
         --tw-bg-opacity: 1;
-        background-color: rgb(31 41 55 / var(--tw-bg-opacity))
+        background-color: rgb(51 54 59 / var(--tw-bg-opacity))
+    }
+
+    .bg-cover {
+        background-size: cover
+    }
+
+    .bg-center {
+        background-position: center
     }
 
     .p-8 {
@@ -572,6 +707,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     .py-4 {
         padding-top: 1rem;
         padding-bottom: 1rem
+    }
+
+    .py-8 {
+        padding-top: 2rem;
+        padding-bottom: 2rem
+    }
+
+    .py-1 {
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem
     }
 
     .text-center {
@@ -593,8 +738,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         line-height: 1.75rem
     }
 
+    .text-3xl {
+        font-size: 1.875rem;
+        line-height: 2.25rem
+    }
+
+    .text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem
+    }
+
     .font-bold {
         font-weight: 700
+    }
+
+    .font-semibold {
+        font-weight: 600
     }
 
     .uppercase {
@@ -606,10 +765,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         color: rgb(255 255 255 / var(--tw-text-opacity))
     }
 
+    .text-black {
+        --tw-text-opacity: 1;
+        color: rgb(0 0 0 / var(--tw-text-opacity))
+    }
+
     .shadow-lg {
         --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
         box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+    }
+
+    .hover\:opacity-100:hover {
+        opacity: 1
     }
 
     @media (min-width: 768px) {
@@ -626,6 +794,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             padding-right: 0px
         }
 
+        .md\:py-20 {
+            padding-top: 5rem;
+            padding-bottom: 5rem
+        }
+
+        .md\:px-6 {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem
+        }
+
+        .md\:py-2 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem
+        }
+
         .md\:text-3xl {
             font-size: 1.875rem;
             line-height: 2.25rem
@@ -635,16 +818,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             font-size: 1.25rem;
             line-height: 1.75rem
         }
+
+        .md\:text-7xl {
+            font-size: 4.5rem;
+            line-height: 1
+        }
+
+        .md\:text-lg {
+            font-size: 1.125rem;
+            line-height: 1.75rem
+        }
+
+        .md\:opacity-80 {
+            opacity: 0.8
+        }
     }
 
     /* END Tailwindcss extract */
 </style>
-
-
-<center><a href="https://www.dogtra.com/collar-finder"><img alt="your alt text" src="https://dogtra.com/blob/image/c2JiM1N4RVZ6eTg90" /></a></center>
-&nbsp;
-
-<center><a href="https://www.dogtra.com/products/remote-training/2-dog-systems"><img alt="your alt text" src="https://dogtra.com/blob/image/VVF5SDZqcDlOMEE90" /></a></center>
 
 
 <!-- END of modified code -->
