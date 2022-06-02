@@ -1,13 +1,13 @@
 :root {
-    --primary-bg-color: #8a7b4d;
-    --secondary-bg-color: #33363b;
-    --neutral-bg-color: #e3e1db;
+    --primary-color: #000000;
+    --secondary--color: #ffdc00;
+    --background-color: #e3e1db;
+    --surface-color: #ffffff;
 
-    --primary-color-on-primary-bg: ;
-    --secondary-color-on-primary-bg: ;
-
-    --primary-color-on-secondary-bg: ;
-    --secondary-color-on-secondary-bg: ;
+    --on-primary-color: #ffffff;
+    --on-secondary-color: #000000;
+    --on-background-color: #333333;
+    --on-surface-color: #333333;
 }
 
 .thumbContainer:hover div,

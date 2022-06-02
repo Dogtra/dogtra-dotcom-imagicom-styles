@@ -31,6 +31,7 @@
     <link href="https://dogtra.com/content/css/font-awesome.min.css?20170627035925" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" href="https://dogtra.com/content/css/colorbox.css?20191220030128" />
     <link href="https://dogtra.com/content/css/site.css?20210831080028" type="text/css" rel="stylesheet" />
+    <link href="./override.css" type="text/css" rel="stylesheet" />
 
 
 
@@ -314,8 +315,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Modifications for landing page can only be done here  -->
 
+
 <script src="https://unpkg.com/vue@3"></script>
-<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+<!-- <script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "var(--primary-color)",
+            secondary: "var(--secondary-color)",
+            'on-primary': "var(--on-primary-color)",
+            'on-secondary': "var(--on-secondary-color)",
+          }
+        }
+      }
+    }
+  </script> -->
 
 <div id="app" class=" mb-8">
     <div class="">
@@ -342,7 +359,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                         <div class="max-w-[15rem] md:max-w-[20rem]">
                                             <img :src="product.attributes.image.data.attributes.url" :alt="product.attributes.image.data.attributes.alternativeText" class="w-full mx-auto">
                                         </div>
-                                        <div class="bg-[#33363b] text-white uppercase font-bold text-center py-4 text-xl">
+                                        <div class="bg-primary text-on-primary uppercase font-bold text-center py-4 text-xl">
                                             {{ product.attributes.name }}
                                         </div>
                                     </div>
@@ -361,7 +378,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     <div class="text-white text-3xl md:text-7xl text-shadow font-bold uppercase">
                         {{ section.title }}
                     </div>
-                    <div class="mt-8 bg-white text-black text-sm md:text-lg w-fit uppercase px-4 py-1 md:px-6 md:py-2 font-semibold">
+                    <div class="mt-8 bg-primary text-on-primary text-sm md:text-lg w-fit uppercase px-4 py-1 md:px-6 md:py-2 font-semibold">
                         {{ section.button_text }}
                     </div>
                 </a>
@@ -500,17 +517,12 @@ query LandingPage {
 </script>
 
 <style>
-
-    .grid32,
-    .grid33 {
-        width: fit-content !important;
-    }
-
     .text-shadow {
         text-shadow: 2px 2px 8px rgb(0,0,0);
     }
 
 </style>
+
 <style>
     /* BEGIN Tailwindcss extract */
 
@@ -598,10 +610,6 @@ query LandingPage {
         width: max-content
     }
 
-    .w-full {
-        width: 100%
-    }
-
     .w-\[1195px\] {
         width: 1195px
     }
@@ -611,12 +619,16 @@ query LandingPage {
         width: fit-content
     }
 
-    .max-w-\[15rem\] {
-        max-width: 15rem
+    .w-full {
+        width: 100%
     }
 
     .max-w-full {
         max-width: 100%
+    }
+
+    .max-w-\[15rem\] {
+        max-width: 15rem
     }
 
     .cursor-pointer {
@@ -677,14 +689,13 @@ query LandingPage {
         border-color: rgb(254 240 138 / var(--tw-border-opacity))
     }
 
+    .bg-primary {
+        background-color: var(--primary-color)
+    }
+
     .bg-white {
         --tw-bg-opacity: 1;
         background-color: rgb(255 255 255 / var(--tw-bg-opacity))
-    }
-
-    .bg-\[\#33363b\] {
-        --tw-bg-opacity: 1;
-        background-color: rgb(51 54 59 / var(--tw-bg-opacity))
     }
 
     .bg-cover {
@@ -699,24 +710,24 @@ query LandingPage {
         padding: 2rem
     }
 
-    .px-4 {
-        padding-left: 1rem;
-        padding-right: 1rem
-    }
-
-    .py-4 {
-        padding-top: 1rem;
-        padding-bottom: 1rem
-    }
-
     .py-8 {
         padding-top: 2rem;
         padding-bottom: 2rem
     }
 
+    .px-4 {
+        padding-left: 1rem;
+        padding-right: 1rem
+    }
+
     .py-1 {
         padding-top: 0.25rem;
         padding-bottom: 0.25rem
+    }
+
+    .py-4 {
+        padding-top: 1rem;
+        padding-bottom: 1rem
     }
 
     .text-center {
@@ -728,16 +739,6 @@ query LandingPage {
         line-height: 2rem
     }
 
-    .text-base {
-        font-size: 1rem;
-        line-height: 1.5rem
-    }
-
-    .text-xl {
-        font-size: 1.25rem;
-        line-height: 1.75rem
-    }
-
     .text-3xl {
         font-size: 1.875rem;
         line-height: 2.25rem
@@ -746,6 +747,16 @@ query LandingPage {
     .text-sm {
         font-size: 0.875rem;
         line-height: 1.25rem
+    }
+
+    .text-base {
+        font-size: 1rem;
+        line-height: 1.5rem
+    }
+
+    .text-xl {
+        font-size: 1.25rem;
+        line-height: 1.75rem
     }
 
     .font-bold {
@@ -765,9 +776,8 @@ query LandingPage {
         color: rgb(255 255 255 / var(--tw-text-opacity))
     }
 
-    .text-black {
-        --tw-text-opacity: 1;
-        color: rgb(0 0 0 / var(--tw-text-opacity))
+    .text-on-primary {
+        color: var(--on-primary-color)
     }
 
     .shadow-lg {
@@ -789,11 +799,6 @@ query LandingPage {
             max-width: 20rem
         }
 
-        .md\:px-0 {
-            padding-left: 0px;
-            padding-right: 0px
-        }
-
         .md\:py-20 {
             padding-top: 5rem;
             padding-bottom: 5rem
@@ -809,14 +814,14 @@ query LandingPage {
             padding-bottom: 0.5rem
         }
 
+        .md\:px-0 {
+            padding-left: 0px;
+            padding-right: 0px
+        }
+
         .md\:text-3xl {
             font-size: 1.875rem;
             line-height: 2.25rem
-        }
-
-        .md\:text-xl {
-            font-size: 1.25rem;
-            line-height: 1.75rem
         }
 
         .md\:text-7xl {
@@ -826,6 +831,11 @@ query LandingPage {
 
         .md\:text-lg {
             font-size: 1.125rem;
+            line-height: 1.75rem
+        }
+
+        .md\:text-xl {
+            font-size: 1.25rem;
             line-height: 1.75rem
         }
 
