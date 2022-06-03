@@ -182,7 +182,7 @@ z-index: 9999
     background-image: url("https://dogtra-dotcom-uploads.s3.us-west-1.amazonaws.com/dogtra_logo_c0ca85feba.png?updated_at=2022-06-02T00:02:49.844Z");
     width: 0;
     height: 0;
-    padding: 45px 108px;
+    padding: 45px 104px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -243,13 +243,52 @@ z-index: 9999
     background-position: center;
 }
 
+
+
 #nav,
 #mobileMenu {
     background-color: var(--secondary-color);
 }
 
+#mobileMenu {
+    display: flex;
+    align-items: center;
+}
+
+
+@media only screen and (min-width: 1024px) {
+    #mobileMenu {
+        display: none;
+    } 
+}
+
 #mobileMenu #logo { 
     width: auto;
+}
+
+#mobileMenu div[style="clear: both;"] {
+    display: none;
+}
+
+#mobileMenu a.cart {
+    display: flex;
+}
+
+#mobileMenu .subMenu {
+    float: inherit;
+    display: block;
+    width: inherit;
+}
+
+#mobileMenu :first-child,
+#mobileMenu :nth-child(1) {
+    display: flex !important;
+    align-items: center;
+}
+
+#mobileMenu a.cart {
+    padding: 12px;
+    margin: -12px 0;
 }
 
 #sidr { 
