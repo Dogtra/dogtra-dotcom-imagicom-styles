@@ -490,3 +490,8 @@ form .button:hover {
     background-color: var(--neutral-color);
     color: var(--on-neutral-color);
 }
+
+#productThumb a .quickView {
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+}
