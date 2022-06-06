@@ -451,10 +451,15 @@
 
         <div class="w-full py-8 mb-4 md:mb-0">
             <div class="px-4 desktop:px-0">
-                <div class="flex flex-wrap bg-surface rounded-tr-3xl rounded-bl-3xl overflow-hidden max-w-[1195px] mx-auto">
-                    <div class="flex-1 aspect-video min-w-[350px] bg-center bg-cover"  style="background-image: url('https://dogtra-dotcom-uploads.s3.us-west-1.amazonaws.com/3_f7ff380c8b.jpg?updated_at=2022-06-03T21:17:24.964Z')">
-                    </div>
-                    <div class="px-4 md:px-8 flex-1 min-w-[350px]">
+                <div class="flex flex-wrap flex-col md:flex-row bg-surface rounded-tr-3xl rounded-bl-3xl overflow-hidden max-w-[1195px] mx-auto">
+                    <!-- <div class="flex-1">
+                        <div class="bg-center bg-cover" style="background-image: url('https://dogtra-dotcom-uploads.s3.us-west-1.amazonaws.com/3_f7ff380c8b.jpg?updated_at=2022-06-03T21:17:24.964Z')">
+                        </div>
+                    </div> -->
+                    <img src="https://dogtra-dotcom-uploads.s3.us-west-1.amazonaws.com/3_f7ff380c8b.jpg?updated_at=2022-06-03T21:17:24.964Z"
+                        class="object-cover max-w-full md:max-w-[50%]"
+                    ></img>
+                    <div class="px-4 md:px-8 flex-1">
                         <div>
                             <h1 class="pt-4 md:pt-6 text-xl md:text-2xl lg:text-3xl uppercase font-bold">Why Dogtra?</h1>
                             <p class="pt-2 md:pt-4 pb-4 md:pb-8 text-xs md:text-sm lg:text-base">In the diverse world of obedience training, hunting dogs, sporting dogs and working dogs, there are unique remote training collar needs each category needs to train at their best level. Dogtra’s mission for over 30 years has been to continue to develop industry leading dog training tools to Make Every Dog Exceptional. Within the e-collar industry, Dogtra has pioneered patented dog training features and tools unique to the Dogtra line. Dogtra’s e-collar development approach has always included input from dog training professionals to create electronic dog training tools that are balanced with intuitive design and endure high performance training environments. Dogtra strives to grow alongside our dog training community and continues to innovate around their ever evolving needs.</p>
@@ -728,9 +733,9 @@ query LandingPage {
             transform: scale(1.1);
         }
     </style>
-    
-  <style>
 
+    <style>
+        
 *,
 ::before,
 ::after {
@@ -805,9 +810,6 @@ query LandingPage {
 .grid {
  display:grid
 }
-.aspect-video {
- aspect-ratio:16 / 9
-}
 .aspect-square {
  aspect-ratio:1 / 1
 }
@@ -833,17 +835,14 @@ query LandingPage {
  width:-moz-fit-content;
  width:fit-content
 }
-.min-w-\[350px\] {
- min-width:350px
-}
 .max-w-\[1195px\] {
  max-width:1195px
 }
-.max-w-\[15rem\] {
- max-width:15rem
-}
 .max-w-full {
  max-width:100%
+}
+.max-w-\[15rem\] {
+ max-width:15rem
 }
 .max-w-\[387px\] {
  max-width:387px
@@ -923,6 +922,9 @@ query LandingPage {
 .bg-center {
  background-position:center
 }
+.object-cover {
+ object-fit:cover
+}
 .p-8 {
  padding:2rem
 }
@@ -941,10 +943,6 @@ query LandingPage {
 .py-1 {
  padding-top:0.25rem;
  padding-bottom:0.25rem
-}
-.px-12 {
- padding-left:3rem;
- padding-right:3rem
 }
 .pt-4 {
  padding-top:1rem
@@ -1027,11 +1025,17 @@ query LandingPage {
  .md\:w-64 {
   width:16rem
  }
+ .md\:max-w-\[50\%\] {
+  max-width:50%
+ }
  .md\:max-w-\[20rem\] {
   max-width:20rem
  }
  .md\:max-w-full {
   max-width:100%
+ }
+ .md\:flex-row {
+  flex-direction:row
  }
  .md\:gap-8 {
   gap:2rem
@@ -1093,9 +1097,6 @@ query LandingPage {
   font-size:1.125rem;
   line-height:1.75rem
  }
- .md\:leading-10 {
-  line-height:2.5rem
- }
  .md\:opacity-80 {
   opacity:0.8
  }
@@ -1120,7 +1121,8 @@ query LandingPage {
   padding-right:0px
  }
 }
-  </style>
+
+    </style>
 
     <!-- END of modified code -->
 
