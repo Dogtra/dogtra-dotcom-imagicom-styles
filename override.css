@@ -378,12 +378,12 @@ z-index: 9999
 }
 
 form .button { 
-    background-color: var(--primary-color);
+    background-color: var(--primary-color) !important;
     color: var(--on-primary-color) !important;
 }
 
 form .button:hover {
-    background-color: var(--neutral-color);
+    background-color: var(--neutral-color) !important;
     color: var(--on-neutral-color) !important;
 }
 
