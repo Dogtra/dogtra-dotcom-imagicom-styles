@@ -402,8 +402,8 @@
                                 class="flex justify-center gap-4 md:gap-8">
                                 <template v-for="product in category.attributes.products.data">
                                     <a :href="product.attributes.url">
-                                        <div class="shadow-lg bg-white rounded-tr-3xl rounded-bl-3xl overflow-hidden">
-                                            <div class="max-w-[15rem] md:max-w-[20rem] opacity-100 hover:opacity-80">
+                                        <div class="flex flex-col h-full shadow-lg bg-white rounded-tr-3xl rounded-bl-3xl overflow-hidden">
+                                            <div class="flex-1 max-w-[15rem] md:max-w-[20rem] opacity-100 hover:opacity-80">
                                                 <img :src="product.attributes.image.data.attributes.url"
                                                     :alt="product.attributes.image.data.attributes.alternativeText"
                                                     class="w-full mx-auto">
