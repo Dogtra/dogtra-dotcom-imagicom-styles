@@ -347,10 +347,10 @@
 
 
     <!-- Modifications for landing page can only be done here  -->
-<!-- 
-    <script src=" https://unpkg.com/vue@v3.2.36"></script>
 
-    <script src="https://cdn.tailwindcss.com/3.0.24"></script>
+    <!-- <script src=" https://unpkg.com/vue@v3.2.36"></script> -->
+
+    <!-- <script src="https://cdn.tailwindcss.com/3.0.24"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -562,21 +562,6 @@
             }
             display
           }
-          ... on ComponentSectionsBlogDuoTileGrid {
-            tiles {
-              title
-              redirection_url
-              background_image {
-                data {
-                  attributes {
-                    alternativeText
-                    url
-                  }
-                }
-              }
-            }
-            display
-          }
         }
       }
     }
@@ -782,7 +767,7 @@
     </style>
 
     <style>
-
+        
 *,
 ::before,
 ::after {
@@ -866,8 +851,8 @@
 .h-3 {
  height:0.75rem
 }
-.max-h-\[144px\] {
- max-height:144px
+.min-h-\[144px\] {
+ min-height:144px
 }
 .w-max {
  width:max-content
@@ -980,10 +965,6 @@
  padding-top:0.5rem;
  padding-bottom:0.5rem
 }
-.py-8 {
- padding-top:2rem;
- padding-bottom:2rem
-}
 .py-1 {
  padding-top:0.25rem;
  padding-bottom:0.25rem
@@ -1050,11 +1031,20 @@
 .hover\:opacity-80:hover {
  opacity:0.8
 }
+.group:hover .group-hover\:bg-strong-neutral {
+ background-color:var(--strong-neutral-color)
+}
 .group:hover .group-hover\:bg-neutral {
  background-color:var(--neutral-color)
 }
+.group:hover .group-hover\:text-on-strong-neutral {
+ color:var(--on-strong-neutral-color)
+}
 .group:hover .group-hover\:text-on-neutral {
  color:var(--on-neutral-color)
+}
+.group:hover .group-hover\:opacity-80 {
+ opacity:0.8
 }
 @media (min-width: 768px) {
  .md\:mb-0 {
@@ -1063,8 +1053,8 @@
  .md\:mt-8 {
   margin-top:2rem
  }
- .md\:max-h-\[296px\] {
-  max-height:296px
+ .md\:min-h-\[226px\] {
+  min-height:226px
  }
  .md\:w-64 {
   width:16rem
@@ -1095,10 +1085,6 @@
  .md\:py-4 {
   padding-top:1rem;
   padding-bottom:1rem
- }
- .md\:py-20 {
-  padding-top:5rem;
-  padding-bottom:5rem
  }
  .md\:px-6 {
   padding-left:1.5rem;
@@ -1162,6 +1148,7 @@
   padding-right:0px
  }
 }
+
     </style>
 
     <!-- END of modified code -->
