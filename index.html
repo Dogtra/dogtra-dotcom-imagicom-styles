@@ -344,13 +344,11 @@
 
     <div id="divHeaderSpacer" style="clear: both; height: 30px;"></div>
 
-
-
     <!-- Modifications for landing page can only be done here  -->
 
     <script src=" https://unpkg.com/vue@v3.2.36"></script>
 
-    <!-- <script src="https://cdn.tailwindcss.com/3.0.24"></script>
+    <script src="https://cdn.tailwindcss.com/3.0.24"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -376,14 +374,16 @@
                 }
             },
         }
-    </script> -->
+    </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.36/vue.global.prod.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.36/vue.global.prod.min.js"></script> -->
+
 
     <div id="app">
         <div class="pt-4">
             <div class="mx-auto text-center">
-                <h1 class="text-center text-2xl font-bold md:text-3xl text-center uppercase">
+                <h1 class="text-center text-center capitalize font-bold">
+                    <span class="text-2xl md:text-3xl ">
                     Popular by activity
                     </span>
                 <div class="overflow-x-auto">
@@ -424,13 +424,15 @@
             </div>
         </div>
 
-        <div v-if="landingPage" class="flex flex-col items-center gap-4 pt-4 md:gap-8">
+        <div v-if="landingPage">
             <template v-for="section in filteredSections">
                 <div v-if="section.__typename === 'ComponentSectionsBannerImageBackground'"
-                    class="banners relative group cursor-pointer opacity-100 hover:opacity-80 max-w-full min-h-[144px] md:min-h-[226px] flex overflow-hidden">
+                    class="banners relative group cursor-pointer opacity-100 hover:opacity-80 max-w-full flex overflow-hidden my-4 px-4 desktop:px-0"
+                    :class="{'bg-white': !!section.white_background, 'py-4': !!section.white_background }"
+                    >
                     <a :href="section.section_url"
                         :style="{'background-image': 'url(' + section.background_image.data.attributes.url + ')'}"
-                        class="block top-0 left-0 w-[1195px] max-w-full text-center flex items-center flex-col justify-center bg-center bg-cover">
+                        class="block top-0 left-0 w-[1195px] min-h-[144px] md:min-h-[226px]  rounded-xl max-w-full text-center flex items-center flex-col justify-center bg-center bg-cover mx-auto">
                         <div>
                             <div class="text-white text-2xl md:text-6xl text-shadow font-bold uppercase" v-html="section.title">
                             </div>
@@ -442,16 +444,8 @@
                         </div>
                     </a>
                 </div>
-                <div v-else-if="section.__typename === 'ComponentSectionsTileGrid'" class="desktop:px-0 w-full max-w-[1195px] overflow-x-auto">
-                    <div class="flex w-fit md:w-full px-4 pb-4 desktop:px-0 justify-between gap-4 md:gap-8">
-                        <template v-for="tile in section.tiles">
-                            <div class="aspect-square rounded-tr-3xl rounded-bl-3xl overflow-hidden min-w-[240px] max-w-full w-full">
-                                <youtube-tile-item v-if="tile.youtube_embed_html" :tile="tile"></youtube-tile-item>
-                                <redirection-tile-item v-else :tile="tile"></redirection-tile-item>
-                            </div>
-                        </template>
-                    </div>
-                </div>
+                <tile-grid v-else-if="section.__typename === 'ComponentSectionsTileGrid'" :section="section"></tile-grid>
+            </tile-grid>
             </template>
         </div>
 
@@ -529,8 +523,11 @@ query LandingPage {
             section_url
             title
             display
+            white_background
           }
           ... on ComponentSectionsTileGrid {
+            title
+            view_all_url
             tiles {
               background_image {
                 data {
@@ -543,6 +540,7 @@ query LandingPage {
               button_text
               youtube_embed_html
               redirection_url
+              over_image_text
             }
             display
           }
@@ -558,15 +556,29 @@ query LandingPage {
                 return {
                     categories: [],
                     selectedCategory: "Obedience",
-                    landingPage: null
+                    landingPage: null,
+                    showHidden: false
                 }
             },
             computed: {
                 filteredSections() {
-                    return this.landingPage.attributes.sections.filter(section => section.display)
+                    if (this.showHidden) {
+                        return this.landingPage.attributes.sections
+                    } else {
+                        return this.landingPage.attributes.sections.filter(section => section.display)
+                    }
                 }
             },
             async mounted() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const myParam = urlParams.get('showHidden');
+
+                console.log(myParam)
+
+                if (myParam) {
+                    this.showHidden = true
+                }
+
                 fetch('https://strapi.dogtra.com/graphql', {
                     method: 'POST',
                     headers: {
@@ -647,11 +659,14 @@ query LandingPage {
             template: `
                 <div class="h-full w-full group">
                     <div :style="{'background-image': 'url(' + tile.background_image.data.attributes.url + ')'}" class="group-hover:opacity-80 cursor-pointer h-full w-full bg-center bg-contain flex justify-center items-center">
-                        <div class="w-full bg-primary text-on-primary group-hover:bg-neutral group-hover:text-on-neutral flex justify-center items-center h-16 uppercase gap-2 px-4">
+                        <div v-if="tile.button_text" class="w-full bg-primary text-on-primary group-hover:bg-neutral group-hover:text-on-neutral flex justify-center items-center h-16 uppercase gap-2 px-4">
                             <span class="text-center text-sm lg:text-lg font-bold">
                                 {{ tile.button_text }}
                             </span>
                             <img alt="arrowright.png?20160115041324" src="https://dogtra.com/content/img/arrowright.png?20160115041324" class="h-3">
+                        </div>
+                        <div v-else-if="tile.over_image_text" class="text-center text-3xl md:text-5xl text-shadow w-full text-white flex justify-center items-center h-16 uppercase gap-2 px-4">
+                            {{ tile.over_image_text }}
                         </div>
                     </div>
                 </div>
@@ -694,6 +709,65 @@ query LandingPage {
                     <tile-item-content :tile="tile">
                     </tile-item-content>
                 </a>
+        `
+        })
+
+        app.component('tile-grid', {
+            props: {
+                section: Object
+            },
+            computed: { 
+                hasMoreTiles() {
+                    return this.section.tiles.length > 3
+                }
+            },
+            methods: {
+                scrollLeft() {
+
+                },
+                scrollRight() {
+
+                }
+            },
+            template: `
+                <div class="tile-wrapper desktop:px-0 w-full">
+                    <div class="max-w-[1195px] mx-auto relative">
+                        <div class="sticky flex justify-between border-solid border-b-4">
+                            <h1 class="text-black capitalize text-3xl font-bold"
+                            v-html="section.title"
+                            ></h1>
+                            <a class="text-black capitalize underline" 
+                            v-if="section.view_all_url" 
+                            :href="section.view_all_url"
+                            >View all -></a>
+                        </div>
+                        <template v-if="hasMoreTiles">
+                            <div class="absolute my-[-1rem] h-full w-full flex flex-row justify-between">
+                                <div class="tile-navigation hidden ml-[-45px] opacity-60 hover:opacity-100 justify-center items-center z-50 cursor-pointer">
+                                    <div class="bg-black h-[40px] w-[40px] text-white flex items-center justify-center rounded-3xl">
+                                        <
+                                    </div>
+                                </div>
+                                <div class="tile-navigation hidden mr-[-45px] opacity-60 hover:opacity-100 justify-center items-center z-50 cursor-pointer">
+                                    <div class="bg-black h-[40px] w-[40px] text-white flex items-center justify-center rounded-3xl">
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="relative overflow-x-auto py-4" ref="grid-carousel">
+                            <div class="relative min-w-full flex w-fit px-4 desktop:px-0 justify-between gap-4 md:gap-8">
+                                <template v-for="tile in section.tiles">
+                                    <div class="aspect-square rounded-xl overflow-hidden min-w-[240px] md:min-w-[320px] max-w-[377px] w-full">
+                                        <youtube-tile-item v-if="tile.youtube_embed_html" :tile="tile"></youtube-tile-item>
+                                        <redirection-tile-item v-else :tile="tile"></redirection-tile-item>
+                                    </div>
+                                </template>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
         `
         })
 
@@ -747,6 +821,16 @@ query LandingPage {
             left: 0;
             width: 100%;
             height: 100%;
+        }
+
+        .tile-wrapper:hover .tile-navigation {
+            display: flex;
+            opacity: 0.8;
+        }
+        
+
+        .tile-navigation:hover {
+            opacity: 0.9;
         }
     </style>
 
@@ -1133,7 +1217,6 @@ query LandingPage {
  }
 }
 </style>
-
     <!-- END of modified code -->
 
     <div class="full" id="footer">
