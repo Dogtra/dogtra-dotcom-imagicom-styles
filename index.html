@@ -754,7 +754,7 @@ query LandingPage {
                                 </div>
                             </div>
                         </template>
-                        <div class="relative overflow-x-auto py-4" ref="grid-carousel">
+                        <div class="relative overflow-x-auto py-4 scroll-smooth" ref="grid-carousel">
                             <div class="relative min-w-full flex w-fit px-4 desktop:px-0 gap-4 md:gap-8">
                                 <template v-for="tile in section.tiles">
                                     <div class="aspect-square rounded-xl overflow-hidden min-w-[240px] md:min-w-[320px] max-w-[377px] w-full">
@@ -834,7 +834,9 @@ query LandingPage {
     </style>
 
     <style>
-        
+        .scroll-smooth {
+            scroll-behavior: smooth
+        }
 *,
 ::before,
 ::after {
