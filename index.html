@@ -658,7 +658,7 @@ query LandingPage {
             },
             template: `
                 <div class="h-full w-full group">
-                    <div :style="{'background-image': 'url(' + tile.background_image.data.attributes.url + ')'}" class="group-hover:opacity-80 cursor-pointer h-full w-full bg-center bg-contain flex justify-center items-center">
+                    <div :style="{'background-image': 'url(' + tile.background_image.data.attributes.url + ')'}" class="group-hover:opacity-80 cursor-pointer h-full w-full bg-center bg-cover flex justify-center items-center">
                         <div v-if="tile.button_text" class="w-full bg-primary text-on-primary group-hover:bg-neutral group-hover:text-on-neutral flex justify-center items-center h-16 uppercase gap-2 px-4">
                             <span class="text-center text-sm lg:text-lg font-bold">
                                 {{ tile.button_text }}
@@ -758,7 +758,7 @@ query LandingPage {
                             </div>
                         </template>
                         <div class="relative overflow-x-auto py-4" ref="grid-carousel">
-                            <div class="relative min-w-full flex w-fit px-4 desktop:px-0 justify-between gap-4 md:gap-8">
+                            <div class="relative min-w-full flex w-fit px-4 desktop:px-0 gap-4 md:gap-8">
                                 <template v-for="tile in section.tiles">
                                     <div class="aspect-square rounded-xl overflow-hidden min-w-[240px] md:min-w-[320px] max-w-[377px] w-full">
                                         <youtube-tile-item v-if="tile.youtube_embed_html" :tile="tile"></youtube-tile-item>
