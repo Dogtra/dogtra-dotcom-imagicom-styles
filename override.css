@@ -495,3 +495,13 @@ form .button:hover {
     background-color: var(--primary-color);
     color: var(--on-primary-color);
 }
+
+@media only screen and (min-width : 361px) and (max-width : 450px) {
+    .postTitle { padding-top: 0; }
+}
+
+#nav #mainNav ul li a.products-menu:hover .single-category-menu,
+#nav #mainNav ul li a.products-menu:hover .parent-category-menu
+{
+    display: block;
+}
