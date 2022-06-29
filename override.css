@@ -97,7 +97,7 @@ cursor:pointer;
 /* Break 6 ----------- */
 @media only screen and (min-width : 1281px) {
   h1.sliderTitle { font-size: 80px; line-height: 82px; padding: 240px 100px 0 0; 	}
-  .cycle-slideshow, .cycle-slideshow .slide { 	height: 690px; }
+  .cycle-slideshow, .cycle-slideshow .slide { 	height: 490px; }
   .special {	width: 60%; text-align:right; float:right }
   .productHeaderBg { height:500px; }
 }
