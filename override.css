@@ -280,8 +280,8 @@ z-index: 9999
     width: inherit;
 }
 
-#mobileMenu :first-child,
-#mobileMenu :nth-child(1) {
+#mobileMenu > :first-child,
+#mobileMenu > :nth-child(1) {
     display: flex !important;
     align-items: center;
 }
