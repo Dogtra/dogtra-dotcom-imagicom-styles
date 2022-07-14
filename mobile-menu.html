@@ -1,0 +1,428 @@
+
+    <div class="full" id="mobileMenu">
+        <div class="subMenu">
+            <nav role="navigation">
+                <div id="menuToggle">
+                    <input id="menuButtonInput" type="checkbox" hidden/>
+                    <div id="menuButton" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div id="newMobileMenu">
+                        <div class="first-mobile-menu">
+                            <div class="top-first-mobile-menu">
+                                <div class="mobile-close-icon" onclick="toggleMobileMenu()">
+                                </div>
+                                <form action="/search" id="mobileSearch" method="get">
+                                    <img src="https://dogtra-dotcom-uploads.s3.us-west-1.amazonaws.com/SEARCH_ICON_ecd23ac62a.png?updated_at=2022-06-02T00:11:28.795Z"
+                                         onclick="document.getElementById('mobileSearch').submit();"/>
+                                    <input type="text"
+                                           name="q" value="SEARCH DOGTRA" onblur="if(value=='') value = 'SEARCH DOGTRA'"
+                                           onfocus="if(value=='SEARCH DOGTRA') value = ''"/>
+
+                                    <button type="submit" style="display: none;">Search</button>
+                                </form>
+                            </div>
+                            <ul>
+                                <li><a href="https://dogtrapathfinder.com" target="_blank">dogtrapathfinder.com</a></li>
+                                <li><a href="https://dogtra.com/account/wishlist">Wish List</a></li>
+                                <li><a href="https://www.dogtra.com/find-a-dealer">find authorized dealers</a></li>
+                                <li><a href="https://dogtra.com/account/login">Account</a></li>
+                            </ul>
+                        </div>
+                        <ul class="second-mobile-menu">
+                            <li>
+                                <a class="expandable-submenu" onclick="expandSubMenu(this)">
+                                    <span>
+                                        Products
+                                    </span>
+                                    <span class="expandable-sign-plus">
+                                        +
+                                    </span>
+                                    <span class="expandable-sign-minus">
+                                        -
+                                    </span>
+                                </a>
+                                <ul class="expandable-submenu-content">
+                                    <li>
+                                        <a>Best sellers</a>
+                                    </li>
+                                    <li>
+                                        <a>Promotions</a>
+                                    </li>
+                                    <li>
+                                        <a class="expandable-submenu" onclick="expandSubMenu(this)">
+
+                                    <span>
+                                        Occasions
+                                    </span>
+                                            <span class="expandable-sign-plus">
+                                        +
+                                    </span>
+                                            <span class="expandable-sign-minus">
+                                        -
+                                    </span>
+                                        </a>
+                                        <ul class="expandable-submenu-content">
+                                            <li>
+                                                <a>Obedience</a>
+                                            </li>
+                                            <li>
+                                                <a>Outdoor</a>
+                                            </li>
+                                            <li>
+                                                <a>Working dogs</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a class="expandable-submenu" onclick="expandSubMenu(this)">
+                                        <span>
+                                            Category
+                                        </span>
+                                        <span class="expandable-sign-plus">
+                                            +
+                                        </span>
+                                        <span class="expandable-sign-minus">
+                                            -
+                                        </span>
+                                        </a>
+                                        <ul class="expandable-submenu-content">
+                                            <li>
+                                                <a>E-Collar</a>
+                                            </li>
+                                            <li>
+                                                <a>GPS Collar</a>
+                                            </li>
+                                            <li>
+                                                <a>Beeper Collar</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="https://www.dogtra.com/collar-finder">Collar finder</a></li>
+                            <li>
+                                <a class="expandable-submenu" onclick="expandSubMenu(this)">
+                                    <span>
+                                        Tips & Training
+                                    </span>
+                                    <span class="expandable-sign-plus">
+                                        +
+                                    </span>
+                                    <span class="expandable-sign-minus">
+                                        -
+                                    </span>
+                                </a>
+                                <ul class="expandable-submenu-content">
+                                    <li>
+                                        <a href="https://www.dogtra.com/the-dogtra-difference" class="">Tips & Training Home</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.dogtra.com/testimonials" class="">Training Videos</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.dogtra.com/whydogtra" class="">Blog & Events</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="expandable-submenu" onclick="expandSubMenu(this)">
+                                    <span>
+                                        About
+                                    </span>
+                                    <span class="expandable-sign-plus">
+                                        +
+                                    </span>
+                                    <span class="expandable-sign-minus">
+                                        -
+                                    </span>
+                                </a>
+                                <ul class="expandable-submenu-content">
+                                    <li>
+                                        <a href="https://www.dogtra.com/the-dogtra-difference" class="">The Dogtra Difference Home</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.dogtra.com/testimonials" class="">Testimonials</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.dogtra.com/whydogtra" class="">WHY DOGTRA</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.dogtra.com/partnerships" class="">Dogtra Partnerships</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.dogtra.com/waterproof-ecollar" class="">WATERPROOF RATING</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="expandable-submenu" onclick="expandSubMenu(this)">
+                                    <span>
+                                        Support
+                                    </span>
+                                    <span class="expandable-sign-plus">
+                                        +
+                                    </span>
+                                    <span class="expandable-sign-minus">
+                                        -
+                                    </span>
+                                </a>
+                                <ul class="expandable-submenu-content">
+                                    <li>
+                                        <a href="https://www.dogtra.com/manuals">Manuals</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.dogtra.com/codesettingguides">Code Setting Guides</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.dogtra.com/product-safety">Product Safety</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.dogtra.com/warranty">Warranty / Repair Info</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.dogtra.com/become-a-dealer"> Become a Dealer</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.dogtra.com/product-registration">Product Registration</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="subMenu">
+            <a id="logo" href="https://www.dogtra.com">
+                <img src="https://dogtra.com/content/img/dogtraLogo.png?20160115041324" alt="Dogtra" />
+            </a>
+        </div>
+        <div class="subMenu">
+            <a class="cart" href="https://dogtra.com/cart">
+                <img style="float: left;" src="https://dogtra.com/content/img/cartmobile.png?20160314051608" />&nbsp;
+                <span class="topSectionCartInfo">CART</span>
+            </a>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <style>
+
+        #mobileMenu > :first-child, #mobileMenu > :nth-child(1) {
+            justify-content: center;
+            height: 25px;
+        }
+
+        #menuToggle {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        #menuToggle #menuButtonInput
+        {
+            display: none;
+            width: 40px;
+            height: 32px;
+            position: absolute;
+            cursor: pointer;
+            opacity: 0;
+            z-index: 2;
+        }
+
+        #mobileMenu {
+            position: relative;
+            z-index: 10000;
+        }
+
+        #menuButton > span
+        {
+            display: flex;
+            width: 24px;
+            height: 2px;
+            margin-bottom: 5px;
+            position: relative;
+            background: #ffffff;
+            border-radius: 3px;
+            transform-origin: 5px 0px;
+            transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+            background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+            opacity 0.55s ease;
+        }
+
+        #menuButton > span:first-child
+        {
+            transform-origin: 0% 0%;
+        }
+
+        #menuButton > span:nth-last-child(2)
+        {
+            transform-origin: 0% 100%;
+        }
+
+        #menuToggle input:checked ~ #menuButton > span
+        {
+            opacity: 1;
+            transform: rotate(45deg) translate(-3px, -1px);
+            background: #36383F;
+        }
+        #menuToggle input:checked ~ #menuButton > span:nth-last-child(3)
+        {
+            opacity: 0;
+            transform: rotate(0deg) scale(0.2, 0.2);
+        }
+
+        #menuToggle input:checked ~ #menuButton > span:nth-last-child(2)
+        {
+            transform: rotate(-45deg) translate(0, -1px);
+        }
+
+        #newMobileMenu
+        {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            transform-origin: 0% 0%;
+            transform: translate(-100%, 0);
+            transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+            top: 0;
+            left: 0;
+            overflow: auto;
+        }
+
+        .first-mobile-menu,
+        .second-mobile-menu {
+            padding: 0 1rem;
+        }
+
+        .first-mobile-menu {
+            background-color: var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 1rem;
+        }
+
+        .first-mobile-menu ul li  +  li{
+            border-top: 1px solid #888888;
+        }
+
+        .first-mobile-menu ul li a {
+            display: block;
+            text-transform: uppercase;
+            font-size: 16px;
+            padding: 12px 12px 12px 0;
+            color: var(--on-primary-color);
+        }
+
+        .second-mobile-menu {
+            background-color: var(--secondary-color);
+            flex: 1;
+        }
+
+        .second-mobile-menu li a {
+            display: flex;
+            justify-content: space-between;
+            text-transform: uppercase;
+            font-size: 16px;
+            padding: 12px 12px 12px 0;
+            color: var(--on-secondary-color);
+        }
+
+        .expandable-submenu-content li a {
+            text-transform: none;
+        }
+
+        .expandable-submenu-content li + li a {
+            border-top: var(--on-secondary-color) 1px solid;
+        }
+
+        #mobileSearch {
+            display: flex;
+            gap: 1rem;
+            flex-direction: row-reverse;
+            align-items: center;
+        }
+
+        #mobileSearch img {
+            height: 25px;
+            width: 25px;
+        }
+        .top-first-mobile-menu {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+
+        .mobile-close-icon {
+            padding: 0 12px;
+        }
+
+        .mobile-close-icon:after{
+            display: inline-block;
+            content: "\00d7"; /* This will render the 'X' */
+            font-size: 31px;
+        }
+
+        #newMobileMenu li
+        {
+            transition-delay: 2s;
+            overflow: auto;
+        }
+
+        #menuToggle input:checked ~ #newMobileMenu
+        {
+            transform: none;
+        }
+
+        .expandable-submenu-content {
+            display: none;
+        }
+
+        li.expand > .expandable-submenu-content {
+            display: block;
+        }
+
+        .expandable-submenu .expandable-sign-minus,
+        li.expand > .expandable-submenu .expandable-sign-plus {
+            display: none;
+        }
+
+        .expandable-submenu .expandable-sign-plus,
+        li.expand > .expandable-submenu .expandable-sign-minus {
+            display: block;
+        }
+
+        .expandable-submenu-content li {
+            padding-left: 10px;
+        }
+
+        .expandable-submenu-content ul li a {
+            color: var(--on-secondary-color);
+        }
+    </style>
+
+
+<script>
+    const expandSubMenu = function (element) {
+        const subMenu = element.parentElement;
+
+        if (subMenu.classList.contains('expand')) {
+            subMenu.classList.remove('expand')
+        } else {
+            subMenu.classList.add('expand')
+        }
+    }
+
+    const toggleMobileMenu = function () {
+        document.getElementById('menuButtonInput').checked = !document.getElementById('menuButtonInput').checked
+    }
+</script>
