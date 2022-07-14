@@ -1153,7 +1153,7 @@ query LandingPage {
                     this.$refs['grid-carousel'].scrollTo(0, 0)
                 },
                 scrollRight() {
-                    this.$refs['grid-carousel'].scrollBy(this.$refs['grid-carousel'].scrollLeftMax, 0)
+                    this.$refs['grid-carousel'].scrollBy(this.$refs['grid-carousel'].scrollWidth - this.$refs['grid-carousel'].clientWidth, 0)
                 }
             },
             template: `
