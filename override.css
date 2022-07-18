@@ -284,6 +284,8 @@ z-index: 9999
 #mobileMenu > :nth-child(1) {
     display: flex !important;
     align-items: center;
+    justify-content: left;
+    padding-left: 12px;
 }
 
 #mobileMenu a.cart {
@@ -504,4 +506,14 @@ form .button:hover {
 #nav #mainNav ul li a.products-menu:hover .parent-category-menu
 {
     display: block;
+}
+
+#nav #mainNav ul li ul a {
+    width: 175px;
+}
+
+@media only screen and (max-width: 1151px) {
+    #nav #mainNav > ul .nav-menu:first-child .nav-menu-content:first-of-type {
+        left: -63px;
+    }
 }
