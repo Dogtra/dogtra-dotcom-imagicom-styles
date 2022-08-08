@@ -906,6 +906,7 @@
                             attributes {
                                 order
                                 name
+                                default_selected
                                 products(sort: "order:asc") {
                                     data {
                                         id
@@ -1002,8 +1003,6 @@ query LandingPage {
                 const urlParams = new URLSearchParams(window.location.search);
                 const myParam = urlParams.get('showHidden');
 
-                console.log(myParam)
-
                 if (myParam) {
                     this.showHidden = true
                 }
@@ -1022,6 +1021,12 @@ query LandingPage {
                 })
                     .then((res) => res.json())
                     .then((result) => {
+                        result.data.categories.data.forEach(category => {
+                            if (category.attributes.default_selected) {
+                                this.selectedCategory = category.attributes.name
+                            }
+                        });
+
                         this.categories = result.data.categories.data
                     });
 
@@ -1052,7 +1057,6 @@ query LandingPage {
             },
             methods: {
                 handleClose: () => {
-                    console.log('outside')
                     if (show) {
                         this.$emit('close')
                     }
