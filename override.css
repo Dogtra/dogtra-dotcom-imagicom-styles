@@ -517,3 +517,24 @@ form .button:hover {
         left: -63px;
     }
 }
+
+#nav #mainNav .nav-menu .nav-menu-content .parent-category-menu li ul li {
+    padding: 0;
+    display: flex;
+}
+
+#nav #mainNav .nav-menu .nav-menu-content .parent-category-menu li ul li a {
+    padding: 0.75rem 1rem;
+}
+
+@media only screen and (min-width: 1224px) {
+    #nav #mainNav ul li a {
+    font-size: 22px;
+    }
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1223px) {
+    #nav #mainNav ul li a {
+    font-size: 18px;
+    }
+}
