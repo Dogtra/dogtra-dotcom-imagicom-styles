@@ -1,0 +1,1035 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.36/vue.global.prod.min.js"></script>
+
+    <div id="app">
+        <div class="pt-4">
+            <div class="mx-auto text-center">
+                <h1 class="text-center text-center capitalize font-bold">
+                    <span class="text-2xl md:text-3xl ">
+                    Popular by activity
+                    </span>
+                <div class="overflow-x-auto">
+                    <div class="flex justify-center w-max mx-auto">
+                        <template v-for="category in categories">
+                            <div class="text-base md:text-xl px-4 md:px-0 min-w-32 md:w-64 uppercase text-center border-solid border-b-4 border-black cursor-pointer flex justify-center items-center"
+                                :class="{'border-yellow-200': selectedCategory === category.attributes.name, 'font-bold': selectedCategory === category.attributes.name}"
+                                @click="selectedCategory = category.attributes.name">
+                                {{ category.attributes.name }}
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <div class="p-4 w-max mx-auto">
+                        <template v-for="category in categories">
+                            <div v-show="selectedCategory === category.attributes.name"
+                                class="flex justify-center gap-4 md:gap-8">
+                                <template v-for="product in category.attributes.products.data">
+                                    <a :href="product.attributes.url">
+                                        <div class="flex flex-col h-full shadow-lg bg-white rounded-tr-3xl rounded-bl-3xl overflow-hidden">
+                                            <div class="flex-1 max-w-[15rem] md:max-w-[20rem] opacity-100 hover:opacity-80">
+                                                <img :src="product.attributes.image.data.attributes.url"
+                                                    :alt="product.attributes.image.data.attributes.alternativeText"
+                                                    class="w-full mx-auto">
+                                            </div>
+                                            <div
+                                                class="bg-primary text-on-primary uppercase font-bold text-center py-2 md:py-4 text-base md:text-xl">
+                                                {{ product.attributes.name }}
+                                            </div>
+                                        </div>
+                                    </a>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="landingPage">
+            <template v-for="section in filteredSections">
+                <div v-if="section.__typename === 'ComponentSectionsBannerImageBackground'"
+                    class="banners relative group cursor-pointer opacity-100 hover:opacity-80 max-w-full flex overflow-hidden my-4 px-4 desktop:px-0"
+                    :class="{'bg-white': !!section.white_background, 'py-4': !!section.white_background }"
+                    >
+                    <a :href="section.section_url"
+                        :style="{'background-image': 'url(' + section.background_image.data.attributes.url + ')'}"
+                        class="block top-0 left-0 w-[1195px] min-h-[144px] md:min-h-[226px]  rounded-xl max-w-full text-center flex items-center flex-col justify-center bg-center bg-cover mx-auto">
+                        <div>
+                            <div class="text-white text-2xl md:text-6xl text-shadow font-bold uppercase" v-html="section.title">
+                            </div>
+                            <div
+                                class="mt-4 md:mt-8 mx-auto bg-primary text-on-primary group-hover:bg-strong-neutral group-hover:text-on-strong-neutral text-sm md:text-lg w-fit uppercase px-4 py-1 md:px-6 md:py-2 font-semibold"
+                                v-html="section.button_text"    
+                            >
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <tile-grid v-else-if="section.__typename === 'ComponentSectionsTileGrid'" :section="section"></tile-grid>
+            </tile-grid>
+            </template>
+        </div>
+
+        <div class="w-full pt-4 pb-8 mb-4 md:mb-0">
+            <div class="px-4 desktop:px-0">
+                <div class="flex flex-wrap flex-col md:flex-row bg-surface rounded-tr-3xl rounded-bl-3xl overflow-hidden max-w-[1195px] mx-auto">
+                    <img src="https://dogtra-dotcom-uploads.s3.us-west-1.amazonaws.com/3_f7ff380c8b.jpg?updated_at=2022-06-03T21:17:24.964Z"
+                        class="object-cover max-w-full md:max-w-[50%]"
+                    ></img>
+                    <div class="px-4 md:px-8 flex-1">
+                        <div>
+                            <h1 class="pt-4 md:pt-6 text-xl md:text-2xl lg:text-3xl uppercase font-bold">Why Dogtra?</h1>
+                            <p class="pt-2 md:pt-4 pb-4 md:pb-8 text-xs md:text-sm lg:text-base">In the diverse world of obedience training, hunting dogs, sporting dogs and working dogs, there are unique remote training collar needs each category needs to train at their best level. Dogtra’s mission for over 30 years has been to continue to develop industry leading dog training tools to Make Every Dog Exceptional. Within the e-collar industry, Dogtra has pioneered patented dog training features and tools unique to the Dogtra line. Dogtra’s e-collar development approach has always included input from dog training professionals to create electronic dog training tools that are balanced with intuitive design and endure high performance training environments. Dogtra strives to grow alongside our dog training community and continues to innovate around their ever evolving needs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue
+
+        let categoriesQuery = `
+                    query Query {
+                        categories(sort: "order:asc") {
+                            data {
+                            id
+                            attributes {
+                                order
+                                name
+                                default_selected
+                                products(sort: "order:asc") {
+                                    data {
+                                        id
+                                        attributes {
+                                        order
+                                        image {
+                                            data {
+                                            id
+                                            attributes {
+                                                alternativeText
+                                                url
+                                            }
+                                            }
+                                        }
+                                        name
+                                        url
+                                        }
+                                    }
+                                }
+                            }
+                            }
+                        }
+                        }
+      `;
+
+        let landingPageQuery = `
+query LandingPage {
+  landingPage {
+    data {
+      attributes {
+        sections {
+          __typename
+          ... on ComponentSectionsBannerImageBackground {
+            background_image {
+              data {
+                attributes {
+                  url
+                  alternativeText
+                }
+              }
+            }
+            button_text
+            id
+            section_url
+            title
+            display
+            white_background
+          }
+          ... on ComponentSectionsTileGrid {
+            title
+            view_all_url
+            tiles {
+              background_image {
+                data {
+                  attributes {
+                    url
+                    alternativeText
+                  }
+                }
+              }
+              button_text
+              youtube_embed_html
+              redirection_url
+              over_image_text
+            }
+            display
+          }
+        }
+      }
+    }
+  }
+}
+        `;
+
+        const app = createApp({
+            data() {
+                return {
+                    categories: [],
+                    selectedCategory: "Obedience",
+                    landingPage: null,
+                    showHidden: false
+                }
+            },
+            computed: {
+                filteredSections() {
+                    if (this.showHidden) {
+                        return this.landingPage.attributes.sections
+                    } else {
+                        return this.landingPage.attributes.sections.filter(section => section.display)
+                    }
+                }
+            },
+            async mounted() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const myParam = urlParams.get('showHidden');
+
+                if (myParam) {
+                    this.showHidden = true
+                }
+
+                fetch('https://strapi.dogtra.com/graphql', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: categoriesQuery,
+                        variables: {
+                            now: new Date().toISOString(),
+                        },
+                    }),
+                })
+                    .then((res) => res.json())
+                    .then((result) => {
+                        result.data.categories.data.forEach(category => {
+                            if (category.attributes.default_selected) {
+                                this.selectedCategory = category.attributes.name
+                            }
+                        });
+
+                        this.categories = result.data.categories.data
+                    });
+
+
+                fetch('https://strapi.dogtra.com/graphql', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: landingPageQuery,
+                        variables: {
+                            now: new Date().toISOString(),
+                        },
+                    }),
+                })
+                    .then((res) => res.json())
+                    .then((result) => {
+                        this.landingPage = result.data.landingPage.data
+                    });
+
+            }
+        });
+
+        app.component('modal', {
+            props: {
+                show: Boolean
+            },
+            methods: {
+                handleClose: () => {
+                    if (show) {
+                        this.$emit('close')
+                    }
+                },
+            },
+            template: `
+        <transition name="modal">
+            <div v-if="show" class="fixed z-10 top-0 left-0 w-full h-full bg-black/75 transition-opactiy duration-300 ease-linear flex justify-center items-center">
+                <div class="modal-wrapper w-[90%] max-w-[1080px]">
+                    <div class="modal-container relative bg-black">
+                        <div title="Close" class="fancybox-item fancybox-close" @click="$emit('close')"></div>
+                        <div class="modal-header">
+                            <slot name="header"></slot>
+                        </div>
+                        <div class="modal-body">
+                            <slot name="body"></slot>
+                        </div>
+                        <div class="modal-footer">
+                            <slot name="footer">
+                            </slot>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+        `
+        })
+
+        app.component('tile-item-content', {
+            props: {
+                tile: Object
+            },
+            template: `
+                <div class="h-full w-full group">
+                    <div :style="{'background-image': 'url(' + tile.background_image.data.attributes.url + ')'}" class="group-hover:opacity-80 cursor-pointer h-full w-full bg-center bg-cover flex justify-center items-center">
+                        <div v-if="tile.button_text" class="w-full bg-primary text-on-primary group-hover:bg-neutral group-hover:text-on-neutral flex justify-center items-center h-16 uppercase gap-2 px-4">
+                            <span class="text-center text-sm lg:text-lg font-bold" v-html="tile.button_text">
+                            </span>
+                            <img alt="arrowright.png?20160115041324" src="https://dogtra.com/content/img/arrowright.png?20160115041324" class="h-3">
+                        </div>
+                        <div v-else-if="tile.over_image_text" class="text-center text-3xl md:text-4xl text-shadow w-full text-white flex justify-center items-center h-16 uppercase gap-2 px-4" v-html="tile.over_image_text">
+                        </div>
+                    </div>
+                </div>
+        `
+        })
+
+        app.component('youtube-tile-item', {
+            props: {
+                tile: Object
+            },
+            data() {
+                return {
+                    showModal: false
+                }
+            },
+            template: `
+                <div class="h-full w-full">
+                    <tile-item-content :tile="tile"  @click="showModal = true">
+                    </tile-item-content>
+                    <Teleport to="body">
+                        <transition name="modal">
+                            <modal v-if="showModal" :show="showModal" @close="showModal = false">
+                                <template #body>
+                                    <div class="youtube-wrapper" v-html="tile.youtube_embed_html">
+                                    </div>
+                                </template>
+                            </modal>
+                        </transition>
+                    </Teleport>
+                </div>
+        `
+        })
+
+        app.component('redirection-tile-item', {
+            props: {
+                tile: Object
+            },
+            template: `
+                <a class="block h-full w-full" :href="tile.redirection_url">
+                    <tile-item-content :tile="tile">
+                    </tile-item-content>
+                </a>
+        `
+        })
+
+        app.component('tile-grid', {
+            props: {
+                section: Object
+            },
+            computed: { 
+                hasMoreTiles() {
+                    return this.section.tiles.length > 3
+                }
+            },
+            methods: {
+                scrollLeft() {
+                    this.$refs['grid-carousel'].scrollTo(0, 0)
+                },
+                scrollRight() {
+                    this.$refs['grid-carousel'].scrollBy(this.$refs['grid-carousel'].scrollWidth - this.$refs['grid-carousel'].clientWidth, 0)
+                }
+            },
+            template: `
+                <div class="tile-wrapper desktop:px-0 w-full">
+                    <div class="max-w-[1195px] mx-auto relative">
+                        <div class="flex justify-between border-solid border-b-4 mx-4 desktop:mx-0">
+                            <h1 class="text-black capitalize text-3xl font-bold px-2"
+                            v-html="section.title"
+                            ></h1>
+                            <a class="text-black capitalize underline" 
+                            v-if="section.view_all_url" 
+                            :href="section.view_all_url"
+                            >View all -></a>
+                        </div>
+                        <template v-if="hasMoreTiles">
+                            <div class="absolute my-[-1rem] h-full w-full flex flex-row justify-between">
+                                <div class="tile-navigation hidden ml-[-45px] opacity-60 hover:opacity-100 justify-center items-center z-50 cursor-pointer"
+                                    @click="scrollLeft">
+                                    <div class="bg-black h-[40px] w-[40px] text-white flex items-center justify-center rounded-3xl">
+                                        <
+                                    </div>
+                                </div>
+                                <div class="tile-navigation hidden mr-[-45px] opacity-60 hover:opacity-100 justify-center items-center z-50 cursor-pointer"
+                                    @click="scrollRight">
+                                    <div class="bg-black h-[40px] w-[40px] text-white flex items-center justify-center rounded-3xl">
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="relative overflow-x-auto py-4 scroll-smooth" ref="grid-carousel">
+                            <div class="relative min-w-full flex w-fit px-4 desktop:px-0 gap-4 md:gap-8">
+                                <template v-for="tile in section.tiles">
+                                    <div class="aspect-square rounded-xl overflow-hidden min-w-[240px] md:min-w-[320px] max-w-[377px] w-full">
+                                        <youtube-tile-item v-if="tile.youtube_embed_html" :tile="tile"></youtube-tile-item>
+                                        <redirection-tile-item v-else :tile="tile"></redirection-tile-item>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        `
+        })
+
+        app.mount('#app');
+    </script>
+
+    <style>
+        .nav-menu-content {
+            display: none;
+            position: absolute;
+            margin-top: 3px;
+        }
+
+        #nav #mainNav ul li ul.single-category-menu,
+        #nav #mainNav ul li ul.parent-category-menu {
+            display: block;
+            top: inherit;
+            position: relative;
+        }
+
+        .nav-menu:last-child .nav-menu-content,
+        .nav-menu:nth-last-child(2) .nav-menu-content,
+        .nav-menu:nth-last-child(3) .nav-menu-content
+        {
+            right: 0;
+        }
+
+        .nav-menu:hover > a {
+            color: var(--primary-color);
+        }
+
+        #nav #mainNav .nav-menu:hover .nav-menu-content
+        {
+            display: flex;
+        }
+
+        #nav #mainNav .nav-menu:hover .nav-menu-content li ul
+        {
+            display: flex;
+        }
+
+        #nav #mainNav .nav-menu .nav-menu-content li ul
+        {
+            width: 100%;
+            position: relative;
+        }
+        #nav #mainNav .nav-menu .nav-menu-content li ul li
+        {
+            clear: none;
+            text-align: right;
+            padding: 0.75rem 1rem;
+
+        }
+
+        #nav #mainNav .nav-menu .nav-menu-content li ul
+        {
+            top: inherit;
+            left: inherit;
+            flex-direction: column;
+        }
+
+        #nav #mainNav .nav-menu .nav-menu-content li ul li a {
+            width: 100% !important;
+            padding: 0;
+            font-weight: normal;
+        }
+
+        #nav #mainNav .nav-menu .parent-category-menu li:hover {
+            border-bottom: 0;
+        }
+
+        #nav #mainNav .nav-menu .nav-menu-content li ul li:hover {
+            background-color: var(--primary-color);
+            color: var(--on-primary-color);
+        }
+
+        #nav #mainNav ul li ul li:hover > a.parent-category-title {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+        #nav #mainNav ul li ul li:hover > a.parent-category-title:hover {
+            background-color: var(--primary-color);
+            color: var(--on-primary-color);
+        }
+
+        .parent-category-title {
+            text-decoration: underline;
+        }
+    </style>
+
+    <style>
+        .text-shadow {
+            text-shadow: 2px 2px 8px rgb(0, 0, 0);
+        }
+
+        /*
+        * The following styles are auto-applied to elements with
+        * transition="modal" when their visibility is toggled
+        * by Vue.js.
+        *
+        * You can easily play with the modal transition by editing
+        * these styles.
+        */
+        
+        .modal-enter-from,
+        .modal-leave-to {
+            opacity: 0;
+        }
+
+        .modal-enter-active,
+        .modal-leave-active {
+            transition: opacity 0.5s ease;
+        }
+
+        .modal-enter-from .modal-container,
+        .modal-leave-to .modal-container {
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+
+        #divHeaderSpacer {
+            display: none;
+        }
+
+        .youtube-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; 
+            height: 0;
+        }
+
+        .youtube-wrapper iframe { 
+            position: absolute;
+            top:0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tile-wrapper:hover .tile-navigation {
+            display: flex;
+            opacity: 0.8;
+        }
+        
+
+        .tile-navigation:hover {
+            opacity: 0.9;
+        }
+    </style>
+
+    <style>
+        
+*,
+::before,
+::after {
+ --tw-translate-x:0;
+ --tw-translate-y:0;
+ --tw-rotate:0;
+ --tw-skew-x:0;
+ --tw-skew-y:0;
+ --tw-scale-x:1;
+ --tw-scale-y:1;
+ --tw-pan-x: ;
+ --tw-pan-y: ;
+ --tw-pinch-zoom: ;
+ --tw-scroll-snap-strictness:proximity;
+ --tw-ordinal: ;
+ --tw-slashed-zero: ;
+ --tw-numeric-figure: ;
+ --tw-numeric-spacing: ;
+ --tw-numeric-fraction: ;
+ --tw-ring-inset: ;
+ --tw-ring-offset-width:0px;
+ --tw-ring-offset-color:#fff;
+ --tw-ring-color:rgb(59 130 246 / 0.5);
+ --tw-ring-offset-shadow:0 0 #0000;
+ --tw-ring-shadow:0 0 #0000;
+ --tw-shadow:0 0 #0000;
+ --tw-shadow-colored:0 0 #0000;
+ --tw-blur: ;
+ --tw-brightness: ;
+ --tw-contrast: ;
+ --tw-grayscale: ;
+ --tw-hue-rotate: ;
+ --tw-invert: ;
+ --tw-saturate: ;
+ --tw-sepia: ;
+ --tw-drop-shadow: ;
+ --tw-backdrop-blur: ;
+ --tw-backdrop-brightness: ;
+ --tw-backdrop-contrast: ;
+ --tw-backdrop-grayscale: ;
+ --tw-backdrop-hue-rotate: ;
+ --tw-backdrop-invert: ;
+ --tw-backdrop-opacity: ;
+ --tw-backdrop-saturate: ;
+ --tw-backdrop-sepia: 
+}
+.fixed {
+ position:fixed
+}
+.absolute {
+ position:absolute
+}
+.relative {
+ position:relative
+}
+.top-0 {
+ top:0px
+}
+.left-0 {
+ left:0px
+}
+.z-50 {
+ z-index:50
+}
+.z-10 {
+ z-index:10
+}
+.mx-auto {
+ margin-left:auto;
+ margin-right:auto
+}
+.my-4 {
+ margin-top:1rem;
+ margin-bottom:1rem
+}
+.mx-4 {
+ margin-left:1rem;
+ margin-right:1rem
+}
+.my-\[-1rem\] {
+ margin-top:-1rem;
+ margin-bottom:-1rem
+}
+.mb-4 {
+ margin-bottom:1rem
+}
+.mt-4 {
+ margin-top:1rem
+}
+.ml-\[-45px\] {
+ margin-left:-45px
+}
+.mr-\[-45px\] {
+ margin-right:-45px
+}
+.block {
+ display:block
+}
+.flex {
+ display:flex
+}
+.hidden {
+ display:none
+}
+.aspect-square {
+ aspect-ratio:1 / 1
+}
+.h-full {
+ height:100%
+}
+.h-\[40px\] {
+ height:40px
+}
+.h-16 {
+ height:4rem
+}
+.h-3 {
+ height:0.75rem
+}
+.min-h-\[144px\] {
+ min-height:144px
+}
+.w-max {
+ width:max-content
+}
+.w-full {
+ width:100%
+}
+.w-\[1195px\] {
+ width:1195px
+}
+.w-fit {
+ width:-moz-fit-content;
+ width:fit-content
+}
+.w-\[40px\] {
+ width:40px
+}
+.w-\[90\%\] {
+ width:90%
+}
+.min-w-full {
+ min-width:100%
+}
+.min-w-\[240px\] {
+ min-width:240px
+}
+.max-w-\[1195px\] {
+ max-width:1195px
+}
+.max-w-full {
+ max-width:100%
+}
+.max-w-\[15rem\] {
+ max-width:15rem
+}
+.max-w-\[377px\] {
+ max-width:377px
+}
+.max-w-\[1080px\] {
+ max-width:1080px
+}
+.flex-1 {
+ flex:1 1 0%
+}
+.cursor-pointer {
+ cursor:pointer
+}
+.flex-row {
+ flex-direction:row
+}
+.flex-col {
+ flex-direction:column
+}
+.flex-wrap {
+ flex-wrap:wrap
+}
+.items-center {
+ align-items:center
+}
+.justify-center {
+ justify-content:center
+}
+.justify-between {
+ justify-content:space-between
+}
+.gap-4 {
+ gap:1rem
+}
+.gap-2 {
+ gap:0.5rem
+}
+.overflow-hidden {
+ overflow:hidden
+}
+.overflow-x-auto {
+ overflow-x:auto
+}
+.scroll-smooth {
+ scroll-behavior:smooth
+}
+.rounded-xl {
+ border-radius:0.75rem
+}
+.rounded-3xl {
+ border-radius:1.5rem
+}
+.rounded-tr-3xl {
+ border-top-right-radius:1.5rem
+}
+.rounded-bl-3xl {
+ border-bottom-left-radius:1.5rem
+}
+.border-b-4 {
+ border-bottom-width:4px
+}
+.border-solid {
+ border-style:solid
+}
+.border-black {
+ --tw-border-opacity:1;
+ border-color:rgb(0 0 0 / var(--tw-border-opacity))
+}
+.border-yellow-200 {
+ --tw-border-opacity:1;
+ border-color:rgb(254 240 138 / var(--tw-border-opacity))
+}
+.bg-surface {
+ background-color:var(--surface-color)
+}
+.bg-white {
+ --tw-bg-opacity:1;
+ background-color:rgb(255 255 255 / var(--tw-bg-opacity))
+}
+.bg-primary {
+ background-color:var(--primary-color)
+}
+.bg-black {
+ --tw-bg-opacity:1;
+ background-color:rgb(0 0 0 / var(--tw-bg-opacity))
+}
+.bg-black\/75 {
+ background-color:rgb(0 0 0 / 0.75)
+}
+.bg-cover {
+ background-size:cover
+}
+.bg-center {
+ background-position:center
+}
+.object-cover {
+ object-fit:cover
+}
+.p-4 {
+ padding:1rem
+}
+.px-4 {
+ padding-left:1rem;
+ padding-right:1rem
+}
+.py-2 {
+ padding-top:0.5rem;
+ padding-bottom:0.5rem
+}
+.py-1 {
+ padding-top:0.25rem;
+ padding-bottom:0.25rem
+}
+.px-2 {
+ padding-left:0.5rem;
+ padding-right:0.5rem
+}
+.py-4 {
+ padding-top:1rem;
+ padding-bottom:1rem
+}
+.pt-4 {
+ padding-top:1rem
+}
+.pb-8 {
+ padding-bottom:2rem
+}
+.pt-2 {
+ padding-top:0.5rem
+}
+.pb-4 {
+ padding-bottom:1rem
+}
+.text-center {
+ text-align:center
+}
+.text-2xl {
+ font-size:1.5rem;
+ line-height:2rem
+}
+.text-xl {
+ font-size:1.25rem;
+ line-height:1.75rem
+}
+.text-xs {
+ font-size:0.75rem;
+ line-height:1rem
+}
+.text-base {
+ font-size:1rem;
+ line-height:1.5rem
+}
+.text-sm {
+ font-size:0.875rem;
+ line-height:1.25rem
+}
+.text-3xl {
+ font-size:1.875rem;
+ line-height:2.25rem
+}
+.font-bold {
+ font-weight:700
+}
+.font-semibold {
+ font-weight:600
+}
+.uppercase {
+ text-transform:uppercase
+}
+.capitalize {
+ text-transform:capitalize
+}
+.text-on-primary {
+ color:var(--on-primary-color)
+}
+.text-white {
+ --tw-text-opacity:1;
+ color:rgb(255 255 255 / var(--tw-text-opacity))
+}
+.text-black {
+ --tw-text-opacity:1;
+ color:rgb(0 0 0 / var(--tw-text-opacity))
+}
+.opacity-100 {
+ opacity:1
+}
+.opacity-60 {
+ opacity:0.6
+}
+.shadow-lg {
+ --tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+ --tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+ box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+}
+.duration-300 {
+ transition-duration:300ms
+}
+.ease-linear {
+ transition-timing-function:linear
+}
+.hover\:opacity-80:hover {
+ opacity:0.8
+}
+.hover\:opacity-100:hover {
+ opacity:1
+}
+.group:hover .group-hover\:bg-strong-neutral {
+ background-color:var(--strong-neutral-color)
+}
+.group:hover .group-hover\:bg-neutral {
+ background-color:var(--neutral-color)
+}
+.group:hover .group-hover\:text-on-strong-neutral {
+ color:var(--on-strong-neutral-color)
+}
+.group:hover .group-hover\:text-on-neutral {
+ color:var(--on-neutral-color)
+}
+.group:hover .group-hover\:opacity-80 {
+ opacity:0.8
+}
+@media (min-width: 768px) {
+ .md\:mb-0 {
+  margin-bottom:0px
+ }
+ .md\:mt-8 {
+  margin-top:2rem
+ }
+ .md\:min-h-\[226px\] {
+  min-height:226px
+ }
+ .md\:w-64 {
+  width:16rem
+ }
+ .md\:min-w-\[320px\] {
+  min-width:320px
+ }
+ .md\:max-w-\[50\%\] {
+  max-width:50%
+ }
+ .md\:max-w-\[20rem\] {
+  max-width:20rem
+ }
+ .md\:flex-row {
+  flex-direction:row
+ }
+ .md\:gap-8 {
+  gap:2rem
+ }
+ .md\:px-8 {
+  padding-left:2rem;
+  padding-right:2rem
+ }
+ .md\:px-0 {
+  padding-left:0px;
+  padding-right:0px
+ }
+ .md\:py-4 {
+  padding-top:1rem;
+  padding-bottom:1rem
+ }
+ .md\:px-6 {
+  padding-left:1.5rem;
+  padding-right:1.5rem
+ }
+ .md\:py-2 {
+  padding-top:0.5rem;
+  padding-bottom:0.5rem
+ }
+ .md\:pt-6 {
+  padding-top:1.5rem
+ }
+ .md\:pt-4 {
+  padding-top:1rem
+ }
+ .md\:pb-8 {
+  padding-bottom:2rem
+ }
+ .md\:text-3xl {
+  font-size:1.875rem;
+  line-height:2.25rem
+ }
+ .md\:text-2xl {
+  font-size:1.5rem;
+  line-height:2rem
+ }
+ .md\:text-sm {
+  font-size:0.875rem;
+  line-height:1.25rem
+ }
+ .md\:text-xl {
+  font-size:1.25rem;
+  line-height:1.75rem
+ }
+ .md\:text-6xl {
+  font-size:3.75rem;
+  line-height:1
+ }
+ .md\:text-lg {
+  font-size:1.125rem;
+  line-height:1.75rem
+ }
+ .md\:text-4xl {
+  font-size:2.25rem;
+  line-height:2.5rem
+ }
+}
+@media (min-width: 1024px) {
+ .lg\:text-3xl {
+  font-size:1.875rem;
+  line-height:2.25rem
+ }
+ .lg\:text-base {
+  font-size:1rem;
+  line-height:1.5rem
+ }
+ .lg\:text-lg {
+  font-size:1.125rem;
+  line-height:1.75rem
+ }
+}
+@media (min-width: 1195px) {
+ .desktop\:mx-0 {
+  margin-left:0px;
+  margin-right:0px
+ }
+ .desktop\:px-0 {
+  padding-left:0px;
+  padding-right:0px
+ }
+}
+
+    </style>
