@@ -1093,12 +1093,12 @@ query LandingPage {
                 <div class="h-full w-full group">
                     <div :style="{'background-image': 'url(' + tile.background_image.data.attributes.url + ')'}" class="group-hover:opacity-80 cursor-pointer h-full w-full bg-center bg-cover flex justify-center items-center">
                         <div v-if="tile.button_text" class="w-full bg-primary text-on-primary group-hover:bg-neutral group-hover:text-on-neutral flex justify-center items-center h-16 uppercase gap-2 px-4">
-                            <span class="text-center text-sm lg:text-lg font-bold" v-html="tile.button_text">
-                            </span>
+                            <h3 class="text-center text-sm lg:text-lg font-bold" v-html="tile.button_text">
+                            </h3>
                             <img alt="arrowright.png?20160115041324" src="https://dogtra.com/content/img/arrowright.png?20160115041324" class="h-3">
                         </div>
-                        <div v-else-if="tile.over_image_text" class="text-center text-3xl md:text-4xl text-shadow w-full text-white flex justify-center items-center h-16 uppercase gap-2 px-4" v-html="tile.over_image_text">
-                        </div>
+                        <h3 v-else-if="tile.over_image_text" class="text-center text-3xl md:text-4xl text-shadow w-full text-white flex justify-center items-center h-16 uppercase gap-2 px-4" v-html="tile.over_image_text">
+                        </h3>
                     </div>
                 </div>
         `
@@ -1164,9 +1164,9 @@ query LandingPage {
                 <div class="tile-wrapper desktop:px-0 w-full">
                     <div class="max-w-[1195px] mx-auto relative">
                         <div class="flex justify-between border-solid border-b-4 mx-4 desktop:mx-0">
-                            <h1 class="text-black capitalize text-3xl font-bold px-2"
+                            <h2 class="text-black capitalize text-3xl font-bold px-2"
                             v-html="section.title"
-                            ></h1>
+                            ></h2>
                             <a class="text-black capitalize underline" 
                             v-if="section.view_all_url" 
                             :href="section.view_all_url"
